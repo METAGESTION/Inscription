@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inscription Privée | ConnectX</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --gold-accent: #af9662;
+            --bg-lux: #ffffff;
+            --text-dark: #1a1a1a;
+            --text-light: #888888;
+            --border-soft: #eeeeee;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-lux);
+            color: var(--text-dark);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-image: radial-gradient(#f0f0f0 1px, transparent 1px);
+            background-size: 40px 40px;
+            padding: 20px;
+        }
+
+        .auth-card {
+            background: white;
+            padding: 50px;
+            width: 100%;
+            max-width: 450px;
+            border-radius: 4px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.05);
+            text-align: center;
+            border: 1px solid var(--border-soft);
+            animation: slideUp 0.8s ease-out;
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.2rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+
+        .divider {
+            width: 40px; height: 2px; background-color: var(--gold-accent); margin: 0 auto 20px;
+        }
+
+        .subtitle {
+            font-size: 0.85rem; color: var(--text-light); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 30px;
+        }
+
+        .form-group { margin-bottom: 20px; text-align: left; }
+
+        label {
+            font-size: 11px;
+            letter-spacing: 1px;
+            color: var(--text-light);
+            text-transform: uppercase;
+        }
+
+        input[type="text"], input[type="email"], input[type="password"] {
+            width: 100%;
+            padding: 12px 0;
+            border: none;
+            border-bottom: 1px solid var(--border-soft);
+            background: transparent;
+            font-size: 14px;
+            transition: border-color 0.4s;
+        }
+
+        input:focus { outline: none; border-bottom-color: var(--gold-accent); }
+
+        /* Style spécifique pour l'import de photo */
+        .file-input-wrapper {
+            margin-top: 10px;
+            border: 1px dashed var(--border-soft);
+            padding: 15px;
+            border-radius: 4px;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .file-input-wrapper:hover { border-color: var(--gold-accent); }
+
+        input[type="file"] { font-size: 12px; color: var(--text-light); width: 100%; }
+
+        button {
+            width: 100%;
+            padding: 16px;
+            background-color: var(--text-dark);
+            color: white;
+            border: none;
+            font-size: 13px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            cursor: pointer;
+            margin-top: 30px;
+            transition: all 0.3s;
+        }
+
+        button:hover { background-color: var(--gold-accent); letter-spacing: 3px; }
+
+        .footer {
+            margin-top: 35px; font-size: 11px; color: var(--text-light); line-height: 1.8;
+        }
+
+        .footer a { color: var(--text-dark); text-decoration: none; border-bottom: 1px solid var(--gold-accent); }
+
+        /* Message de confirmation caché par défaut */
+        #success-message { display: none; }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="auth-card" id="form-container">
+        <div class="header">
+            <div class="logo">ConnectX</div>
+            <div class="divider"></div>
+            <p class="subtitle">Demande d'adhésion</p>
+        </div>
+
+        <form action="https://formspree.io/f/votre-email-ici" method="POST" enctype="multipart/form-data" id="registration-form">
+            <div class="form-group">
+                <input type="text" name="full_name" placeholder="NOM COMPLET" required>
+            </div>
+            <div class="form-group">
+                <input type="text" name="username" placeholder="NOM D'UTILISATEUR" required>
+            </div>
+            <div class="form-group">
+                <input type="email" name="email" placeholder="ADRESSE E-MAIL" required>
+            </div>
+            <div class="form-group">
+                <input type="password" name="password" placeholder="MOT DE PASSE" required>
+            </div>
+            
+            <div class="form-group">
+                <label>Photo de profil (optionnel)</label>
+                <div class="file-input-wrapper">
+                    <input type="file" name="profile_picture" accept="image/*">
+                </div>
+            </div>
+
+            <input type="hidden" name="_next" value="javascript:showSuccess()">
+
+            <button type="submit">Confirmer l'inscription</button>
+        </form>
+
+        <div class="footer">
+            En poursuivant, vous acceptez nos <br>
+            <a href="cgu.html" target="_blank">Conditions Générales</a>.
+        </div>
+    </div>
+
+    <div class="auth-card" id="success-message">
+        <div class="logo">Merci</div>
+        <div class="divider"></div>
+        <p style="font-size: 14px; line-height: 1.6; color: var(--text-dark);">
+            Votre demande a été transmise avec succès.<br><br>
+            <strong>Vous recevrez un mail de retour dès lors que votre profil sera accessible.</strong>
+        </p>
+        <button onclick="window.location.reload()">Retour</button>
+    </div>
+
+    <script>
+        const form = document.getElementById('registration-form');
+        const formContainer = document.getElementById('form-container');
+        const successMessage = document.getElementById('success-message');
+
+        form.onsubmit = function() {
+            // Cette partie s'exécute lors de la soumission
+            // Pour Formspree, la redirection se fait via l'input _next ou via AJAX.
+            // Pour l'exemple ici, nous simulons l'affichage du message.
+            setTimeout(() => {
+                formContainer.style.display = 'none';
+                successMessage.style.display = 'block';
+            }, 500); 
+        };
+    </script>
+
+</body>
+</html>
