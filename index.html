@@ -76,14 +76,12 @@
         .form-group { margin-bottom: 1.25rem; position: relative; text-align: left; }
         label { display: block; margin-bottom: 0.5rem; font-weight: 500; font-size: 0.9rem; }
         
-        input[type="text"], input[type="email"], input[type="number"] {
+        input[type="text"], input[type="email"] {
             width: 100%; padding: 0.8rem; border: 1px solid var(--border);
             border-radius: 8px; font-size: 1rem; transition: border 0.2s;
         }
         input:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1); }
         
-        .field-error { color: var(--error); font-size: 0.8rem; margin-top: 4px; display: none; }
-
         .btn {
             width: 100%; padding: 0.9rem; background-color: var(--primary); color: white;
             border: none; border-radius: 8px; font-weight: 600; cursor: pointer;
@@ -197,10 +195,7 @@
                     <input type="email" id="reg-email" placeholder="vous@exemple.com" required>
                 </div>
                 
-                <div class="form-group">
-                    <label>Code PIN (4 chiffres)</label>
-                    <input type="number" id="reg-pin" placeholder="0000" maxlength="4" required>
-                </div>
+                <!-- LE CHAMP PIN A ÉTÉ SUPPRIMÉ -->
 
                 <button type="submit" class="btn" id="reg-btn">
                     <span>S'inscrire</span>
@@ -306,44 +301,33 @@
             window.open(`${baseUrl}?${params.toString()}`, '_blank');
         }
 
-        /* --- LOGIQUE D'INSCRIPTION (MODIFIÉE : PAS D'ENVOI DU PIN) --- */
+        /* --- LOGIQUE D'INSCRIPTION (SANS PIN) --- */
         async function handleRegister(e) {
             e.preventDefault();
             
             const username = document.getElementById('reg-username').value.trim();
             const email = document.getElementById('reg-email').value.trim();
-            const pin = document.getElementById('reg-pin').value.trim();
             const btn = document.getElementById('reg-btn');
 
-            if (!username || !email || !pin) {
+            if (!username || !email) {
                 showToast("Veuillez remplir tous les champs.", "error");
                 return;
             }
 
-            // Vérification que le PIN fait bien 4 chiffres
-            if (!/^\d{4}$/.test(pin)) {
-                showToast("Le code PIN doit contenir exactement 4 chiffres.", "error");
-                return;
-            }
-
-            // Sauvegarde locale (Le PIN est gardé ici, mais PAS envoyé)
+            // Sauvegarde locale
             localStorage.setItem('userUsername', username);
             localStorage.setItem('userEmail', email);
-            localStorage.setItem('userPin', pin);
             
             state.username = username;
             state.email = email;
 
-            // Envoi à Formspree (NOUVEAU LIEN + PAS DE PIN)
+            // Envoi à Formspree (NOUVEAU LIEN)
             const formData = new FormData();
             formData.append('email', email);
             formData.append('username', username);
-            
-            // On n'envoie PAS le PIN pour éviter le bannissement
             formData.append('message', `Nouvelle inscription de l'utilisateur : ${username}`);
             formData.append('_subject', `Nouvelle Inscription : ${username}`);
 
-            // NOUVEAU LIEN INTÉGRÉ ICI
             fetch('https://formspree.io/f/xkovkjjp', {
                 method: 'POST',
                 body: formData,
